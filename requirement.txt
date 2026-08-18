@@ -1,0 +1,10 @@
+PyYAML
+langchain
+langchain-core
+langchain-community
+langchain-classic
+langchain-text-splitters
+langchain-huggingface
+langchain-groq
+langgraph
+python-dotenv
