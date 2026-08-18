@@ -8,3 +8,5 @@ langchain-huggingface
 langchain-groq
 langgraph
 python-dotenv
+tree-sitter-languages
+tree-sitter

@@ -1,0 +1,18 @@
+embeddings:
+ model: sentence-transformers/all-MiniLM-L6-v2
+ provider: hf-inference             
+
+
+
+ memory:
+ db_path: .src\repomind/memory/memory.db
+ summarize_at_tokens: 4000
+ keep_last_messages: 20
+
+ qdrant:
+ collection_name: repomind_claude
+
+ llm:
+ provider: openai
+ model: gpt-5.5
+ judge_model: gpt-4o-mini

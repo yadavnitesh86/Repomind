@@ -16,3 +16,8 @@ dependencies = [
     "python-dotenv>=1.2.3",
     "pyyaml>=6.0.3",
 ]
+[project.scripts]
+repomind = "repomind.cli:main"
+
+[tool.uv]
+package = true
