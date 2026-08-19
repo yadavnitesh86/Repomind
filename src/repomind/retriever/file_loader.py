@@ -55,10 +55,7 @@ class RepositoryLoader:
 
         relative_path = file_path.relative_to(self.project_path)
 
-        return any(
-            part in self.IGNORED_DIRECTORIES
-            for part in relative_path.parts
-        )
+        return any(part in self.IGNORED_DIRECTORIES for part in relative_path.parts)
 
     def _is_supported(self, file_path: Path) -> bool:
         """
@@ -91,7 +88,6 @@ class RepositoryLoader:
         documents = []
 
         for file_path in self.project_path.rglob("*"):
-
             # Skip directories
             if not file_path.is_file():
                 continue
@@ -112,9 +108,7 @@ class RepositoryLoader:
                 continue
 
             # Get path relative to project root
-            relative_path = file_path.relative_to(
-                self.project_path
-            )
+            relative_path = file_path.relative_to(self.project_path)
 
             # Create LangChain Document
             document = Document(
