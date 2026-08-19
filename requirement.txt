@@ -8,5 +8,12 @@ langchain-huggingface
 langchain-groq
 langgraph
 python-dotenv
-tree-sitter-languages
-tree-sitter
+langchain_qdrant
+qdrant_client
+FastMCP
+fastembed
+langchain_openai
+langchain_anthropic
+langchain_mcp_adapters
+langgraph-checkpoint-sqlite
+asyncio

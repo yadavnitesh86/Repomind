@@ -3,8 +3,9 @@ from pathlib import Path
 
 
 def load_config() -> dict:
-    """Load settings from config.yaml at the project root."""
-    return yaml.safe_load((Path(__file__).parent / "config.yaml").read_text())
+    """Load settings from config.yaml."""
 
+    config_path = Path(__file__).parent / "config.yaml"
 
-config = load_config()
+    with open(config_path, "r") as file:
+        return yaml.safe_load(file)

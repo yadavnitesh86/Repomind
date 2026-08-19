@@ -1,24 +1,36 @@
-from repomind.retriever.file_loader import RepositoryLoader
+from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+import asyncio
+from repomind.utils.logger import get_logger
+from repomind.retriever.factory import (
+    get_thread_id,
+    get_checkpointer_db_path,
+)
+from repomind.agents.agent import build_graph
 
+logger = get_logger(__name__)
+
+
+async def async_main():
+
+    async with AsyncSqliteSaver.from_conn_string(
+        get_checkpointer_db_path()
+    ) as checkpointer:
+        thread_id = get_thread_id()
+
+        agent = await build_graph(checkpointer)
+
+        config = {"configurable": {"thread_id": thread_id}}
+
+        while True:
+            query = input("\nYou: ")
+
+            if query.lower() in {"exit", "quit"}:
+                break
+
+            response = await agent.ainvoke(
+                {"messages": [{"role": "user", "content": query}]}, config=config
+            )
+            print(f"\nRepoMind: {response['messages'][-1].content}")
 
 def main():
-    print("\nRepoMind started!\n")
-
-    repository_loader = RepositoryLoader()
-
-    print(f"Current project: {repository_loader.project_path}")
-
-    documents = repository_loader.load()
-
-    print(f"Documents loaded: {len(documents)}")
-
-    for i, document in enumerate(documents, start=1):
-        print("\n" + "=" * 60)
-        print(f"DOCUMENT {i}")
-        print("=" * 60)
-
-        print("Metadata:")
-        print(document.metadata)
-
-        print("\nContent:")
-        print(document.page_content)
+    asyncio.run(async_main())

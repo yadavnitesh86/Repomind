@@ -3,6 +3,9 @@ from langchain_text_splitters import (
     RecursiveCharacterTextSplitter,
     Language,
 )
+from repomind.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class RepositoryChunker:
@@ -59,6 +62,7 @@ class RepositoryChunker:
     def chunk(self, documents: list[Document]) -> list[Document]:
 
         all_chunks = []
+        logger.info("Starting chunking process of document ")
 
         for document in documents:
             extension = document.metadata.get(
@@ -74,5 +78,6 @@ class RepositoryChunker:
                 chunk.metadata["chunk_index"] = index
 
             all_chunks.extend(chunks)
+        logger.info(f"successfully generated {len(all_chunks)} chunks")
 
         return all_chunks

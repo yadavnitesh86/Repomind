@@ -2,7 +2,9 @@ from pathlib import Path
 
 from langchain_core.documents import Document
 from repomind.utils.logger import get_logger
+
 logger = get_logger(__name__)
+
 
 class RepositoryLoader:
     """Loads supported files from the current repository."""
