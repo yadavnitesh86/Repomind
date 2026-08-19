@@ -1,7 +1,8 @@
 from pathlib import Path
 
 from langchain_core.documents import Document
-
+from repomind.utils.logger import get_logger
+logger = get_logger(__name__)
 
 class RepositoryLoader:
     """Loads supported files from the current repository."""
@@ -47,6 +48,10 @@ class RepositoryLoader:
         """Initialize loader with the user's current directory."""
 
         self.project_path = Path.cwd().resolve()
+        logger.info(
+            "Repository path detected: %s",
+            self.project_path,
+        )
 
     def _should_ignore(self, file_path: Path) -> bool:
         """
@@ -84,6 +89,7 @@ class RepositoryLoader:
         """
         Load supported repository files as LangChain Documents.
         """
+        logger.info("Scanning repository files...")
 
         documents = []
 
@@ -123,5 +129,9 @@ class RepositoryLoader:
             )
 
             documents.append(document)
+        logger.info(
+            "Repository scan completed. Loaded %d documents.",
+            len(documents),
+        )
 
         return documents
