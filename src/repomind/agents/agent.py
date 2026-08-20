@@ -7,7 +7,7 @@ from repomind.retriever.factory import (
 )
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from langchain.agents import create_agent
-
+from repomind.agents.all_middleware import middleware
 SYSTEM_PROMPT = """You are RepoMind, a senior software engineer with deep knowledge of the codebase.
 
 When answering questions about the repository:
@@ -32,4 +32,5 @@ async def build_graph(checkpointer):
         tools=mcp_tools,
         system_prompt=SYSTEM_PROMPT,
         checkpointer=checkpointer,
+        middleware=middleware,
     )
