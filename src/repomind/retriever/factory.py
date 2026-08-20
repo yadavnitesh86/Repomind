@@ -9,7 +9,7 @@ from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from pathlib import Path
 import hashlib
 import uuid
-from repomind.mcp.all_mcp import mcp
+from repomind.mcp_server.all_mcp import mcp
 
 load_dotenv()
 

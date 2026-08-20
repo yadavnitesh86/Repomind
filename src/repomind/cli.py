@@ -31,6 +31,5 @@ async def async_main():
                 {"messages": [{"role": "user", "content": query}]}, config=config
             )
             print(f"\nRepoMind: {response['messages'][-1].content}")
-
 def main():
     asyncio.run(async_main())

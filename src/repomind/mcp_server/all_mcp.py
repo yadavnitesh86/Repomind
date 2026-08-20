@@ -7,7 +7,7 @@ mcp = {
         "command": sys.executable,
         "args": [
             "-m",
-            "repomind.retriever.mcp",
+            "repomind.retriever.mcp_server",
         ],
     }
 }

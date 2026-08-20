@@ -2,7 +2,9 @@ from fastmcp import FastMCP
 
 from repomind.retriever.retriever import RepositoryRetriever
 from repomind.utils.logger import get_logger
+from dotenv import load_dotenv
 
+load_dotenv()
 
 logger = get_logger(__name__)
 
@@ -24,7 +26,9 @@ def get_repository_retriever() -> RepositoryRetriever:
     return repository_retriever
 
 
-@mcp.tool(description="Search the repository for code and documents relevant to a natural-language query. Input: query only. Does not read arbitrary files by path.")
+@mcp.tool(
+    description="Search the repository for code and documents relevant to a natural-language query. Input: query only. Does not read arbitrary files by path."
+)
 def search_repository(query: str) -> list[dict]:
     """
     Search the current repository using hybrid retrieval.
@@ -37,6 +41,7 @@ def search_repository(query: str) -> list[dict]:
         query: A natural-language or code-related search query.
 
     """
+    print("search_repository called")
 
     logger.info(
         "MCP search request: %s",
