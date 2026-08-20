@@ -5,7 +5,7 @@ embeddings:
 
 
 memory:
- db_path: .src/repomind/memory/memory.db
+ db_path: ./src/repomind/memory/memory.db
  summarize_at_tokens: 4000
  keep_last_messages: 20
 
