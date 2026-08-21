@@ -1,18 +1,11 @@
-embeddings:
- model: sentence-transformers/all-MiniLM-L6-v2
- provider: hf-inference             
-
-
 
 memory:
  db_path: ./src/repomind/memory/memory.db
- summarize_at_tokens: 4000
- keep_last_messages: 20
 
 qdrant:
  collection_name: repomind_claude
 
-ChatGroq:
+ChatGroq: # you can use any provider and model .just do not exit this key
  provider: ChatGroq
  model: openai/gpt-oss-120b
  
