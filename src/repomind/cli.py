@@ -1,6 +1,6 @@
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from langgraph.types import Command
-
+from repomind.agents.welcome_message import show_welcome
 import asyncio
 
 from repomind.utils.logger import get_logger
@@ -9,7 +9,6 @@ from repomind.retriever.factory import (
     get_checkpointer_db_path,
 )
 from repomind.agents.agent import build_graph
-
 
 logger = get_logger(__name__)
 
@@ -90,4 +89,6 @@ async def async_main():
 
 
 def main():
+    show_welcome()
     asyncio.run(async_main())
+    

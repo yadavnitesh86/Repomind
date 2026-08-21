@@ -17,3 +17,4 @@ langchain_anthropic
 langchain_mcp_adapters
 langgraph-checkpoint-sqlite
 asyncio
+rich
