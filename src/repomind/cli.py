@@ -1,17 +1,20 @@
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from langgraph.types import Command
-from repomind.agents.welcome_message import show_welcome
+from repomind.agents.welcome_message import show_welcome 
 import asyncio
-
+from repomind.agents.print_intrupt import print_interrupt_summary
+from langfuse.langchain import CallbackHandler
 from repomind.utils.logger import get_logger
 from repomind.retriever.factory import (
     get_thread_id,
     get_checkpointer_db_path,
 )
+from dotenv import load_dotenv
 from repomind.agents.agent import build_graph
 
 logger = get_logger(__name__)
-
+langfuse_handler = CallbackHandler()
+load_dotenv()
 
 async def async_main():
 
@@ -26,7 +29,8 @@ async def async_main():
         config = {
             "configurable": {
                 "thread_id": thread_id
-            }
+            },
+            "callbacks": [langfuse_handler]
         }
 
         while True:
@@ -54,8 +58,8 @@ async def async_main():
 
                 interrupt = response["__interrupt__"][0]
 
-                print("\n⚠️ Approval required")
-                print(interrupt)
+                
+                print_interrupt_summary(interrupt)
 
                 decision = input(
                     "\nApprove or reject? [approve/reject]: "

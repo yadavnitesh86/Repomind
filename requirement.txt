@@ -18,3 +18,4 @@ langchain_mcp_adapters
 langgraph-checkpoint-sqlite
 asyncio
 rich
+langfuse
