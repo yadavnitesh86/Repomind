@@ -11,7 +11,7 @@ def print_interrupt_summary(interrupt):
 
         print(f"\nAction {index}: {name}")
 
-        # For edit_file, don't print the complete file content
+        
         if name == "edit_file":
             edits = args.get("edits", [])
 
@@ -25,7 +25,7 @@ def print_interrupt_summary(interrupt):
                 print(f"  Old text: {len(old_text)} characters")
                 print(f"  New text: {len(new_text)} characters")
 
-                # Small preview only
+                
                 preview = new_text[:150].replace("\n", " ")
                 if len(new_text) > 150:
                     preview += "..."
@@ -33,13 +33,13 @@ def print_interrupt_summary(interrupt):
                 print(f"  Preview: {preview}")
 
         else:
-            # For other tools, print normal arguments
+            
             print("Arguments:")
 
             for key, value in args.items():
                 value_str = str(value)
 
-                # Prevent huge output
+                
                 if len(value_str) > 300:
                     value_str = value_str[:300] + "..."
 
