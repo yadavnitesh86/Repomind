@@ -42,19 +42,19 @@ def get_llm():
     if provider == "ChatGroq":
         from langchain_groq import ChatGroq
 
-        logger.info(f"Using ChatGroq model: {model}")
+        
         return ChatGroq(model=model)
 
     elif provider == "anthropic":
         from langchain_anthropic import ChatAnthropic
 
-        logger.info(f"Using Anthropic model: {model}")
+        
         return ChatAnthropic(model=model)
 
     else:
         from langchain_openai import ChatOpenAI
 
-        logger.info(f"Using OpenAI model: {model}")
+        
         return ChatOpenAI(model=model)
 
 
