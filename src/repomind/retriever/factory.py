@@ -36,25 +36,26 @@ def get_collection_name() -> str:
 
 
 def get_llm():
-
     provider = config["ChatGroq"]["provider"]
     model = config["ChatGroq"]["model"]
 
     if provider == "ChatGroq":
         from langchain_groq import ChatGroq
 
+        logger.info(f"Using ChatGroq model: {model}")
         return ChatGroq(model=model)
-        logger.info("Using chatgroq model")
+
     elif provider == "anthropic":
         from langchain_anthropic import ChatAnthropic
 
+        logger.info(f"Using Anthropic model: {model}")
         return ChatAnthropic(model=model)
-        logger.info("Using anthropic model")
+
     else:
         from langchain_openai import ChatOpenAI
 
+        logger.info(f"Using OpenAI model: {model}")
         return ChatOpenAI(model=model)
-        logger.info("Using openai model by default ")
 
 
 async def get_mcp_tools() -> list:

@@ -7,5 +7,5 @@ qdrant:
 
 ChatGroq: # you can use any provider and model .just do not exit this key
  provider: ChatGroq
- model: openai/gpt-oss-120b
+ model: qwen/qwen3.6-27b
  
