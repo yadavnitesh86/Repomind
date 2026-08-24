@@ -9,3 +9,9 @@ wheels/
 # Virtual environments
 .venv
 .env
+.env.local
+.ruff_cache/
+.vscode/
+.idea/
+.env.*.local
+*.env
