@@ -58,3 +58,5 @@ def show_welcome():
     f"\n[bold cyan]🤖 Provider:[/bold cyan] [bold green]{provider}[/bold green]"
     f"  [bold cyan]🧠 Model:[/bold cyan] [bold green]{model}[/bold green]\n"
      )
+    console.print("[bold green] Type exit to end the session .[/bold green]\n[bold red]⚠️  Make sure to save your Thread ID first! [/bold red]")
+    console.print()
