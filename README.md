@@ -1,21 +1,38 @@
 # RepoMind
 
-> An AI-powered repository assistant that helps you understand, analyze, and interact with your codebase directly from the command line.
+> **An AI-powered CLI assistant for understanding and interacting with your codebase.** Ask questions about your repository in natural language, analyze code, use Git and filesystem tools, and extend RepoMind with your own MCP servers.
+
+## ✨ Features
+
+* 🤖 AI-powered repository assistant
+* 💬 Natural language CLI interaction
+* 🔍 RAG-based repository knowledge retrieval
+* 🧠 Agent workflows powered by LangGraph
+* 🛠️ Repository, Git, filesystem, and MCP tools
+* 🔌 Add unlimited custom MCP servers
+* 🛡️ Human-in-the-loop approval for sensitive actions
+* 💾 SQLite conversation persistence
+* 📊 Optional Langfuse tracing
+* 🤖 Multiple LLM providers
+* 🎨 Rich terminal interface
+* ⚡ UV dependency management
+* 🐳 Docker support
+* 🔄 GitHub Actions CI
 
 ---
 
-## 🚀 Quick Start
+# 🚀 Quick Start
 
-### Prerequisites
+## Prerequisites
 
-Before installing RepoMind, make sure you have:
+Make sure you have:
 
-- Python **3.12 or higher**
-- Git
-- UV
-- An API key for your configured LLM provider
+* Python **3.12+**
+* Git
+* UV
+* An API key for your selected LLM provider
 
-Verify your installation:
+Verify:
 
 ```bash
 python --version
@@ -23,133 +40,60 @@ git --version
 uv --version
 ```
 
----
-
-## 1. Clone the Repository
+## 1. Clone and Install
 
 ```bash
-git clone https://github.com/yadavnitesh86/Repomind.git
+git clone <RepoMind-repository-URL>
 cd Repomind
-```
 
----
-
-## 2. Install Dependencies
-
-RepoMind uses `uv` for dependency management.
-
-```bash
 uv sync
 ```
 
-This installs the dependencies defined in `pyproject.toml` and `uv.lock`.
+## 2. Configure Your LLM
 
----
-
-## 3. Configure RepoMind
-
-The main configuration file is located at:
-
-```text
-Repomind/
-└── src/
-    └── repomind/
-        └── config/
-            └── config.yaml
-```
-
-You can modify `config.yaml` to change supported application settings, including:
-
-- LLM provider
-- Model
-- Other supported model and application settings
-
-> ⚠️ Make sure your API key matches the provider configured in `config.yaml`.
-
----
-
-## 4. Create the `.env` File
-
-RepoMind requires a `.env` file for API keys.
-
-> ⚠️ **Important:** The `.env` file must be created at:
-
-```text
-Repomind/
-└── src/
-    └── repomind/
-        └── .env
-```
-
-### Windows PowerShell
-
-Create the file:
-
-```powershell
-New-Item -Path "src\repomind\.env" -ItemType File
-```
-
-Add the API key required by your configured provider.
-
-Example for Groq:
-
-```env
-GROQ_API_KEY=your_api_key_here
-```
-
-If you select another provider in:
+Configure your LLM provider and model in:
 
 ```text
 src/repomind/config/config.yaml
 ```
 
-add the corresponding API key required by that provider.
+Create the `.env` file:
 
-> 🔐 Never commit your `.env` file or API keys.
+### Windows PowerShell
 
----
-
-## 5. Optional: Configure Langfuse
-
-Langfuse is optional and provides observability and tracing.
-
-Add these variables to:
-
-```text
-src/repomind/.env
+```powershell
+New-Item -Path "src\repomind\.env" -ItemType File
 ```
+
+Add the API key for your configured provider.
+
+Example:
 
 ```env
-LANGFUSE_PUBLIC_KEY=your_public_key
-LANGFUSE_SECRET_KEY=your_secret_key
-LANGFUSE_HOST=https://cloud.langfuse.com
+GROQ_API_KEY=your_api_key_here
 ```
 
-If Langfuse credentials are not configured, RepoMind runs without Langfuse tracing.
+> ⚠️ The API key must match the provider configured in `config.yaml`.
 
----
+## 3. Initialize Git
 
-## 6. Initialize Git
+RepoMind analyzes Git repositories.
 
-RepoMind works with Git repositories.
-
-If the repository you want to analyze is not already initialized with Git, run:
+If your target repository is not already a Git repository:
 
 ```bash
 git init
 ```
 
-Verify Git:
+You can verify it with:
 
 ```bash
 git status
 ```
 
-For an existing Git repository, you do not need to run `git init`.
+> Existing Git repositories do not need `git init`.
 
----
-
-## 7. Run RepoMind
+## 4. Run RepoMind
 
 From the RepoMind project directory:
 
@@ -165,7 +109,7 @@ You: Explain the architecture of this repository.
 RepoMind: ...
 ```
 
-To exit:
+Exit with:
 
 ```text
 exit
@@ -178,341 +122,172 @@ quit
 ```
 
 ---
-## 🌍 Install RepoMind as a Global CLI Tool
 
-If you want to run RepoMind from anywhere by simply typing:
+# 🌍 Install as a Global CLI Tool
+
+If you want to run RepoMind from anywhere:
 
 ```bash
 repomind
 ```
 
-install it as a UV tool.
-
-After cloning the repository:
-
-```bash
-git clone https://github.com/yadavnitesh86/Repomind.git
-cd Repomind
-```
-
-Install RepoMind:
+install it as a UV tool:
 
 ```bash
 uv tool install .
 ```
 
-After installation, you can run RepoMind from anywhere:
+Then run:
 
 ```bash
 repomind
 ```
 
-# 📦 Complete Installation Flow
+---
 
-```bash
-git clone https://github.com/yadavnitesh86/Repomind.git
+# 🔌 Add Your Own MCP Servers
 
-cd Repomind
+RepoMind is extensible with MCP servers.
 
-uv sync
+You can configure and add your own MCP servers in:
 
-# Create the required .env file at:
-# src/repomind/.env
-
-git init
-
-uv run repomind
+```text
+src/repomind/mcp_server/all_mcp.py
 ```
 
-Before running RepoMind:
+For example, RepoMind can connect to multiple MCP servers:
 
-1. Create and configure:
+```python
+mcp = {
+    "retriever": {
+        "transport": "stdio",
+        "command": sys.executable,
+        "args": [
+            "-m",
+            "repomind.retriever.mcp_server",
+        ],
+    },
+    "filesystem": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+            "-y",
+            "@modelcontextprotocol/server-filesystem",
+            str(REPOSITORY_PATH),
+        ],
+    },
+    "git": {
+        "transport": "stdio",
+        "command": "uvx",
+        "args": [
+            "mcp-server-git",
+            "--repository",
+            str(REPOSITORY_PATH),
+        ],
+    },
+}
+```
+
+### Add as many MCP servers as you need
+
+Simply add another server configuration to the `mcp` dictionary.
+
+This allows you to extend RepoMind with your own tools and MCP integrations without changing the core agent architecture.
+
+```text
+all_mcp.py
+    │
+    ├── Retriever MCP
+    ├── Filesystem MCP
+    ├── Git MCP
+    └── Your Custom MCP Servers...
+```
+
+---
+
+# 📊 Optional: Langfuse Observability
+
+Langfuse tracing is optional.
+
+Add these variables to:
 
 ```text
 src/repomind/.env
 ```
 
-2. Add the API key for your selected provider.
-
-3. Configure your provider and model if needed at:
-
-```text
-src/repomind/config/config.yaml
+```env
+LANGFUSE_PUBLIC_KEY=your_public_key
+LANGFUSE_SECRET_KEY=your_secret_key
+LANGFUSE_HOST=<Langfuse-host>
 ```
 
----
-
-# 🧪 Testing
-
-After installation, start RepoMind:
-
-```bash
-uv run repomind
-```
-
-Recommended tests:
-
-1. Start RepoMind successfully.
-2. Ask a question about the repository.
-3. Test repository and code analysis.
-4. Test tool-based operations.
-5. Test the approval/rejection workflow when applicable.
-6. Verify conversation persistence.
-7. Test the configured LLM provider.
-
-If you find an error, check:
-
-1. Is Python 3.12 or higher installed?
-2. Is `uv` installed?
-3. Did `uv sync` complete successfully?
-4. Does `src/repomind/.env` exist?
-5. Does the `.env` file contain the correct API key?
-6. Does the API key match the provider configured in `config/config.yaml`?
-7. Is the repository initialized with Git?
-
-If you find a bug, please open an issue and include:
-
-- Error message
-- Steps to reproduce
-- Operating system
-- Python version
-- Relevant configuration details
-
-> 🔐 Never include API keys, secrets, tokens, or your `.env` file in an issue.
-
----
-
-# 🤖 What is RepoMind?
-
-RepoMind is an AI-powered CLI assistant designed to help developers understand and interact with code repositories.
-
-Instead of manually searching through files and directories, users can ask questions about their codebase using natural language.
-
-RepoMind analyzes repository information, retrieves relevant context, and uses an AI agent workflow to provide contextual answers and perform repository-related operations.
-
----
-
-# ✨ Features
-
-- 🤖 AI-powered repository assistant
-- 💬 Natural language CLI interaction
-- 📁 Repository and codebase analysis
-- 🔍 Retrieval-Augmented Generation (RAG)
-- 🧠 Agent-based workflows using LangGraph
-- 🛠️ Tool-based repository interaction
-- 🛡️ Human-in-the-loop approval for sensitive actions
-- 💾 SQLite checkpointing and conversation persistence
-- 🧵 Thread-based conversation state
-- 📊 Optional Langfuse observability and tracing
-- 🔌 Configurable LLM providers
-- 🎨 Rich CLI interface
-- ⚡ Dependency management with UV
-- 🐳 Docker support
-- 🔄 GitHub Actions CI
-
----
-
-# 🏗️ Architecture
-
-```text
-                    User
-                     │
-                     ▼
-               ┌───────────┐
-               │    CLI    │
-               └─────┬─────┘
-                     │
-                     ▼
-               ┌───────────┐
-               │ LangGraph │
-               │   Agent   │
-               └─────┬─────┘
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
-     ┌─────────┐           ┌─────────┐
-     │   LLM   │           │  Tools  │
-     └─────────┘           └────┬────┘
-                                │
-                                ▼
-                        Repository Analysis
-                                │
-                                ▼
-                         Files / Git / Code
-```
-
-### Repository Knowledge Flow
-
-```text
-Repository
-    ↓
-Document Loading
-    ↓
-Chunking
-    ↓
-Embeddings
-    ↓
-Vector Database
-    ↓
-Retriever
-    ↓
-Relevant Context
-    ↓
-LangGraph Agent
-    ↓
-Final Answer
-```
-
----
-
-# 🛡️ Human-in-the-Loop Safety
-
-```text
-Agent decides an action is required
-            ↓
-     Interrupt workflow
-            ↓
-   Show action summary
-            ↓
-User chooses:
-Approve / Reject
-            ↓
-       Resume Agent
-```
-
-This adds an additional safety layer before sensitive operations are completed.
+If these variables are not configured, RepoMind will run normally without Langfuse tracing.
 
 ---
 
 # 🧠 Tech Stack
 
-- Python
-- LangChain
-- LangGraph
-- FastMCP
-- Qdrant
-- FastEmbed
-- SQLite
-- Groq
-- Anthropic
-- OpenAI
-- Hugging Face
-- Langfuse
-- Rich
-- UV
-- Docker
-- GitHub Actions
+**AI & Agents:** LangChain, LangGraph, FastMCP
+**LLMs:** Groq, OpenAI, Anthropic, Hugging Face
+**RAG:** Qdrant, FastEmbed
+**Storage:** SQLite
+**Developer Tools:** UV, Docker, GitHub Actions
+**Observability:** Langfuse
+**CLI:** Rich
 
 ---
 
-# 🔐 Environment Variables
-
-The required API key depends on the provider configured in:
-
-```text
-src/repomind/config/config.yaml
-```
-
-Example:
-
-```env
-GROQ_API_KEY=your_key_here
-
-LANGFUSE_PUBLIC_KEY=
-LANGFUSE_SECRET_KEY=
-LANGFUSE_HOST=https://cloud.langfuse.com
-```
-
-Langfuse variables are optional.
-
-> Never commit real API keys to GitHub.
-
----
-
-# 🔄 Continuous Integration
-
-RepoMind uses GitHub Actions for Continuous Integration.
-
-On pushes and pull requests, the workflow automatically performs project checks.
-
-```text
-Checkout Code
-      ↓
-Set Up Python
-      ↓
-Install UV
-      ↓
-Install Dependencies
-      ↓
-Run Project Checks
-      ↓
-Pass ✅ / Fail ❌
-```
-
-GitHub Actions validates repository changes. Cloning the repository does not trigger the workflow.
-
----
-
-# 📁 Project Structure
+# 📁 Important Configuration Files
 
 ```text
 Repomind/
 │
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-│
 ├── src/
 │   └── repomind/
-│       ├── agents/
 │       ├── config/
-│       │   └── config.yaml
-│       ├── retriever/
-│       ├── tools/
-│       ├── utils/
-│       ├── cli.py
-│       └── .env
+│       │   └── config.yaml       # LLM configuration
+│       │
+│       ├── mcp_server/
+│       │   └── all_mcp.py        # Add custom MCP servers
+│       │
+│       └── .env                  # API keys and secrets
 │
 ├── pyproject.toml
 ├── uv.lock
-├── Dockerfile
-└── README.md
+└── Dockerfile
 ```
 
+---
 
+# 🐛 Troubleshooting
+
+Before reporting an issue, check:
+
+* Python **3.12+** is installed
+* UV is installed
+* `uv sync` completed successfully
+* `src/repomind/.env` exists
+* Your API key is correct
+* The API key matches the configured LLM provider
+* The target repository is initialized with Git
+
+> 🔐 Never commit API keys, tokens, secrets, or your `.env` file.
+
+---
 
 # 🤝 Contributing
 
 Contributions are welcome!
 
-1. Fork the repository.
-2. Clone your fork.
-3. Create a new branch.
-4. Make your changes.
-5. Test your changes.
-6. Push changes to your fork.
-7. Create a Pull Request.
+1. Fork the repository
+2. Create a branch
+3. Make your changes
+4. Test your changes
+5. Open a Pull Request
 
-GitHub Actions will run configured checks on pull requests.
+GitHub Actions will run the configured checks automatically.
 
 ---
-
-# 🐛 Found a Bug?
-
-If you find an error or unexpected behavior, please open an issue.
-
-Please include:
-
-- A clear description of the problem
-- Steps to reproduce it
-- The error message
-- Your operating system
-- Python version
-- Relevant configuration details
-
-> 🔐 Do not include API keys, secrets, tokens, or the contents of your `.env` file.
-
-
 
 # 👨‍💻 Author
 
@@ -520,11 +295,4 @@ Please include:
 
 Aspiring Applied AI Engineer
 
-- Python
-- Machine Learning
-- Deep Learning
-- Generative AI
-- RAG
-- LangChain
-- LangGraph
-- Agentic AI
+**Python · Machine Learning · Deep Learning · Generative AI · RAG · LangChain · LangGraph · Agentic AI**
