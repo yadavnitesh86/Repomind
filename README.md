@@ -16,7 +16,6 @@
 * 🤖 Multiple LLM providers
 * 🎨 Rich terminal interface
 * ⚡ UV dependency management
-* 🐳 Docker support
 * 🔄 GitHub Actions CI
 
 ---
