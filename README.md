@@ -178,6 +178,34 @@ quit
 ```
 
 ---
+## 🌍 Install RepoMind as a Global CLI Tool
+
+If you want to run RepoMind from anywhere by simply typing:
+
+```bash
+repomind
+```
+
+install it as a UV tool.
+
+After cloning the repository:
+
+```bash
+git clone https://github.com/yadavnitesh86/Repomind.git
+cd Repomind
+```
+
+Install RepoMind:
+
+```bash
+uv tool install .
+```
+
+After installation, you can run RepoMind from anywhere:
+
+```bash
+repomind
+```
 
 # 📦 Complete Installation Flow
 
