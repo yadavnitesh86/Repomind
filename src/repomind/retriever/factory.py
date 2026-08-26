@@ -27,12 +27,10 @@ def get_embedder():
 
 
 def get_collection_name() -> str:
-
     project_path = str(Path.cwd().resolve())
-
     project_hash = hashlib.sha256(project_path.encode("utf-8")).hexdigest()[:16]
-
-    return f"repomind_{project_hash}"
+    config_name = config.get("qdrant", {}).get("collection_name", "repomind")
+    return f"{config_name}_{project_hash}"
 
 
 def get_llm():

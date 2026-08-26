@@ -40,32 +40,37 @@ async def async_main():
 
             if query.lower() in {"exit", "quit"}:
                 break
+            try:
 
-            # First agent call
-            response = await agent.ainvoke(
-                {"messages": [{"role": "user", "content": query}]}, config=config
-            )
-
-            while "__interrupt__" in response:
-
-                interrupt = response["__interrupt__"][0]
-
-                print_interrupt_summary(interrupt)
-
-                decision = (
-                    input("\nApprove or reject? [approve/reject]: ").strip().lower()
-                )
-
-                if decision not in {"approve", "reject"}:
-                    print("Please enter approve or reject.")
-                    continue
-
+                # First agent call
                 response = await agent.ainvoke(
-                    Command(resume={"decisions": [{"type": decision}]}), config=config
+                    {"messages": [{"role": "user", "content": query}]}, config=config
                 )
 
-            if response.get("messages"):
-                print(f"\nRepoMind: " f"{response['messages'][-1].content}")
+                while "__interrupt__" in response:
+
+                    interrupt = response["__interrupt__"][0]
+
+                    print_interrupt_summary(interrupt)
+
+                    decision = (
+                        input("\nApprove or reject? [approve/reject]: ").strip().lower()
+                    )
+
+                    if decision not in {"approve", "reject"}:
+                        print("Please enter approve or reject.")
+                        continue
+
+                    response = await agent.ainvoke(
+                        Command(resume={"decisions": [{"type": decision}]}), config=config
+                    )
+
+                if response.get("messages"):
+                    print(f"\nRepoMind: " f"{response['messages'][-1].content}")
+            except Exception as e:
+                logger.error(f"Agent turn failed: {e}", exc_info=True)
+                print(f"\n⚠️ Something went wrong: {e}")
+                print(f"Your conversation is saved. Resume with thread ID: {thread_id}")
 
 
 def main():

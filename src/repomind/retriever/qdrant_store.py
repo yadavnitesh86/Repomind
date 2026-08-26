@@ -21,11 +21,16 @@ def index_codebase():
 
     url = os.getenv("QDRANT_URL")
     api_key = os.getenv("QDRANT_API_KEY")
+    try:
+        client = QdrantClient(url=url, api_key=api_key)
+        existing = [c.name for c in client.get_collections().collections]
+    except Exception as e:
+        logger.error(f"Cannot reach Qdrant at {url}: {e}")
+        raise RuntimeError(
+            "Vector store unavailable — check QDRANT_URL/QDRANT_API_KEY."
+        ) from e
 
-    client = QdrantClient(
-        url=url,
-        api_key=api_key,
-    )
+    
 
     # Load current repository
     repository_loader = RepositoryLoader()
@@ -36,12 +41,6 @@ def index_codebase():
 
     # Load hash from the last indexing
     previous_hash = load_previous_hash()
-
-    existing = [
-        c.name
-        for c in client.get_collections().collections
-    ]
-
     # Use existing index if repository has not changed
     if (
         collection_name in existing

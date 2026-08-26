@@ -1,7 +1,7 @@
 from pathlib import Path
-
 from langchain_core.documents import Document
 from repomind.utils.logger import get_logger
+
 
 logger = get_logger(__name__)
 
@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 class RepositoryLoader:
     """Loads supported files from the current repository."""
 
-    # Directories we should not scan
+    
     IGNORED_DIRECTORIES = {
         ".git",
         ".venv",
@@ -24,7 +24,7 @@ class RepositoryLoader:
         ".mypy_cache",
     }
 
-    # File types supported by RepoMind
+    
     SUPPORTED_EXTENSIONS = {
         ".py",
         ".js",
@@ -96,22 +96,22 @@ class RepositoryLoader:
         documents = []
 
         for file_path in self.project_path.rglob("*"):
-            # Skip directories
+            
             if not file_path.is_file():
                 continue
 
-            # Skip ignored directories
+            # Skips ignored directories
             if self._should_ignore(file_path):
                 continue
 
-            # Skip unsupported files
+            # Skips unsupported files
             if not self._is_supported(file_path):
                 continue
 
-            # Read file content
+            # Reads file content
             content = self._read_file(file_path)
 
-            # Skip unreadable or empty files
+            # Skips unreadable or empty files
             if not content or not content.strip():
                 continue
 
