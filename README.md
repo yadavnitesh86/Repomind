@@ -42,7 +42,7 @@ uv --version
 ## 1. Clone and Install
 
 ```bash
-git clone <RepoMind-repository-URL>
+git clone https://github.com/yadavnitesh86/Repomind.git
 cd Repomind
 
 uv sync
