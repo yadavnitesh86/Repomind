@@ -40,7 +40,7 @@ node --version
 npm --version
 git --version
 uv --version
-```bash
+```
 
 ## 1. Clone and Install
 
