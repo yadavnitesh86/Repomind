@@ -27,6 +27,7 @@
 Make sure you have:
 
 * Python **3.12+**
+* Node.js
 * Git
 * UV
 * An API key for your selected LLM provider
@@ -35,9 +36,10 @@ Verify:
 
 ```bash
 python --version
+node --version
+npm --version
 git --version
 uv --version
-```
 
 ## 1. Clone and Install
 

@@ -5,7 +5,7 @@ memory:
 qdrant:
  collection_name: repomind_claude
 
-ChatGroq: # you can use any provider and model .just do not exit this key
+ChatGroq: # you can use any provider and model .just do not edit this key
  provider: ChatGroq
  model: qwen/qwen3.6-27b
  
